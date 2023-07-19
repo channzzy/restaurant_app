@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
+import 'package:restaurant_app/data/providers/detail_provider.dart';
+import 'package:restaurant_app/data/providers/restaurant_provider.dart';
 import 'package:restaurant_app/ui/detail_resto.dart';
 import 'package:restaurant_app/ui/splash_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => RestaurantProvider(
+          apiService: ApiService(),
+        ),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => DetailProvider(
+          apiService: ApiService(),
+        ),
+      )
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -44,7 +62,9 @@ class MyApp extends StatelessWidget {
       initialRoute: SplashScreen.routeName,
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
-        DetailResto.routeName: (context) => const DetailResto()
+        DetailResto.routeName: (context) => DetailResto(
+              id: ModalRoute.of(context)?.settings.arguments as String,
+            )
       },
     );
   }

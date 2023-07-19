@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _bottomNavIndex == 0 ? RestoList() : ProfilePage(),
+      body: _bottomNavIndex == 0 ? ListResto() : ProfilePage(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
         selectedItemColor: primary,
